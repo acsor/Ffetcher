@@ -8,9 +8,6 @@ If you're looking for a full-fledged 4chan python's API, [py-4chan](https://gith
 
 ## Usage ##
 
-Three scripts:
-
-1. `fetch.py` outputs a dictionary whose pair are `filename`: `URL to fetch`.
-2. `download.py` actually downloads them.
-3. `main.py` starts the whole thing. The only argument required, if you're launching
-it from the shell, is the thread URL. Dive into the code for more.
+1. `Fetcher.py` defines the Fetcher class.
+2. `ThreadFetcher.py` defines subclasses of Fetcher providing access to threads' content.
+3. `CatalogFetcher.py` defines subclasses of Fetcher providing access to catalogs.
