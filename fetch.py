@@ -1,9 +1,6 @@
 #!/usr/bin/python
 
-import sys
-import re
-import urllib
-import json
+import sys, re, urllib, json
 
 class TranslationProcess:
 
