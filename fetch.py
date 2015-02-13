@@ -81,12 +81,14 @@ class TranslationProcessV1 (TranslationProcess):
                 if _keyFilename in post
         )
 
-def main (threadUrl):
-    if threadUrl is None:
-        exit("You must input the thread URL")
+def main ():
+    if len(sys.argv) == 1:
+        exit(sys.argv[0] + ": you must input the thread URL.")
+
+    threadUrl = sys.argv[1]
 
     for i in TranslationProcessV1(threadUrl):
         print i
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main()
