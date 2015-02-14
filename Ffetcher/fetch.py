@@ -48,6 +48,10 @@ class ThreadFetcher (Fetcher):
 
     def __init__ (self, threadUrl):
         self.threadUrl = threadUrl
+
+        if not re.match(self._threadUrlRegex, self.threadUrl):
+            raise EnvironmentError("\"%s\" is not a valid URL." % self.threadUrl)
+
         self.boardName = re.match(self._threadUrlRegex, threadUrl).group(1)
         self.threadNo = re.match(self._threadUrlRegex, threadUrl).group(2)
 
@@ -65,12 +69,14 @@ class ImageThreadFetcher (ThreadFetcher):
 
     def translateJsonStep (self, jsonDict):
         posts = jsonDict[self._keyRoot]
-        _keyFilename = self._keyFilename     # Can't see why I need to do this, but I have to. Try to delete this line and see what happens.
         
         return (
-                {post[self._keyFilename]: self._mediaUrlTpl % (self.boardName, (str(post[self._keySrc]) + post[self._keyExt]))}
+                (
+                    post[self._keyFilename] + post[self._keyExt],   # Filename + extension
+                    self._mediaUrlTpl % (self.boardName, (str(post[self._keySrc]) + post[self._keyExt]))    # URL to fetch
+                )
                 for post in posts
-                if _keyFilename in post
+                if self._keyFilename in post
         )
 
 class ArchivedThreadFetcher (Fetcher):
