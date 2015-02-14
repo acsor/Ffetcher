@@ -2,7 +2,7 @@
 
 import os
 from urllib import URLopener
-from fetch import ImageThreadFetcher
+from fetcher import ImageThreadFetcher
 
 class ImageThreadDownloader ():
 

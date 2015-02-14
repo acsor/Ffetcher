@@ -1,3 +1,3 @@
 #!/usr/bin/python
 
-__all__ = "Fetcher", "ThreadFetcher", "CatalogFetcher"
+__all__ = "fetcher", "downloader"
