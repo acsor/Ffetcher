@@ -33,7 +33,7 @@ def main ():
         dest_dir += "/"
 
     if not os.access(dest_dir, os.W_OK):
-        raise EnvironmentError("\"%s\" does not have write permissions or does not exist." % dest_dir)
+        exit("\"%s\" does not have write permissions or does not exist." % dest_dir)
 
     for filename, response_headers in ImageThreadDownloader(url, dest_dir):
         print "Downloaded %s" % filename
