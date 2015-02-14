@@ -5,7 +5,7 @@ Ffetcher
 
 `Ffetcher`, pronounced `four fetcher`, is a Python package primarly aimed at fetching pics from 4chan's threads.
 It uses the APIs described [here](https://github.com/4chan/4chan-API).
-If you're looking for a full-fledged 4chan python's API, [py-4chan](https://github.com/bibanon/py-4chan) is the right choice.
+If you're looking for a full-fledged 4chan python's API, use [py-4chan](https://github.com/bibanon/py-4chan) instead.
 
 ## Usage ##
 
