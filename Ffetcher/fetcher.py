@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import urllib, json, sys, re
 
-class Fetcher:
 
+class Fetcher:
     def __iter__ (self):
         return self.translateJsonStep (
             self.__fetchJsonStep (
@@ -16,10 +16,10 @@ class Fetcher:
 
     def fetchJsonStep (self, jsonUrl):
         try:
-            f = urllib.urlopen(jsonUrl)
+            f = urllib.request.urlopen(jsonUrl)
 
             if f is not None:
-                response = f.read()
+                response = f.read().decode("utf-8")
             else:
                 return None
         finally:
@@ -63,8 +63,8 @@ class ThreadFetcher (Fetcher):
     def translateJsonStep (self, jsonDict):
         raise NotImplementedError()
 
-class ImageThreadFetcher (ThreadFetcher):
 
+class ImageThreadFetcher (ThreadFetcher):
     _mediaUrlTpl = "https://i.4cdn.org/%s/%s"
 
     def translateJsonStep (self, jsonDict):
@@ -79,8 +79,8 @@ class ImageThreadFetcher (ThreadFetcher):
                 if self._keyFilename in post
         )
 
-class ArchivedThreadFetcher (Fetcher):
 
+class ArchivedThreadFetcher (Fetcher):
     _jsonUrlTpl = "https://a.4cdn.org/%s/archive.json"
 
     def __init__ (self, boardName):
@@ -92,8 +92,8 @@ class ArchivedThreadFetcher (Fetcher):
     def translateJsonStep (self, jsonDecodeData):
         return jsonDecodeData.__iter__()
 
-class BoardFetcher (Fetcher):
 
+class BoardFetcher (Fetcher):
     _jsonUrlTpl = "https://a.4cdn.org/boards.json"
     _boardUrlTpl = "https://boards.4chan.org/%s/"
 
@@ -112,8 +112,8 @@ class BoardFetcher (Fetcher):
                 for board in boards
         )
 
-class CatalogFetcher (Fetcher):
 
+class CatalogFetcher (Fetcher):
     _jsonUrlTpl = "https://a.4cdn.org/%s/catalog.json"
 
     _keyRoot = u"posts"
@@ -126,5 +126,6 @@ class CatalogFetcher (Fetcher):
 
     def translateJsonStep (self, jsonDecodedData):
         """Incomplete"""
-        print jsonDecodedData
+        print(jsonDecodedData)
+
         return jsonDecodedData[self._keyRoot]

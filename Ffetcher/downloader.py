@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import os
-from urllib import URLopener
+from urllib.request import URLopener
 from fetcher import ImageThreadFetcher
 
-class ImageThreadDownloader ():
 
+class ImageThreadDownloader ():
     def __init__ (self, threadUrl, dest_dir):
         self.imageThreadFetcher = ImageThreadFetcher(threadUrl)
         self.dest_dir = dest_dir
@@ -36,7 +36,8 @@ def main ():
         exit("\"%s\" does not have write permissions or does not exist." % dest_dir)
 
     for filename, response_headers in ImageThreadDownloader(url, dest_dir):
-        print "Downloaded %s" % filename
+        print("Downloaded %s" % filename)
+
 
 if __name__ == "__main__":
     main()
