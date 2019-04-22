@@ -6,9 +6,7 @@ import urllib, json, sys, re
 class Fetcher:
     def __iter__ (self):
         return self.translateJsonStep (
-            self.__fetchJsonStep (
-                self.getJsonUrlStep()
-            )
+            self.__fetchJsonStep(self.getJsonUrlStep())
         )
 
     def getJsonUrlStep (self):
@@ -33,14 +31,16 @@ class Fetcher:
 
     __fetchJsonStep = fetchJsonStep
 
-class ThreadFetcher (Fetcher):
 
-    # The matching parentheses groups are respectively the board's name and the thread's number.
+class ThreadFetcher (Fetcher):
+    # The matching parentheses groups are respectively the board's name and
+    # the thread's number.
     # Example: https://boards.4chan.org/lit/thread/6132992/WHATEVER
     _threadUrlRegex = "^https?://boards.4chan.org/(\w+)/thread/(\d+).*$"
     _jsonUrlTpl = "http://a.4cdn.org/%s/thread/%s.json"
 
-    # These are all JSON keys described here https://github.com/4chan/4chan-API.
+    # These are all JSON keys described here
+    # https://github.com/4chan/4chan-API.
     _keyFilename = u"filename"
     _keySrc = u"tim"
     _keyExt = u"ext"
@@ -50,7 +50,9 @@ class ThreadFetcher (Fetcher):
         self.threadUrl = threadUrl
 
         if not re.match(self._threadUrlRegex, self.threadUrl):
-            raise EnvironmentError("\"%s\" is not a valid URL." % self.threadUrl)
+            raise EnvironmentError(
+                "\"%s\" is not a valid URL." % self.threadUrl
+            )
 
         self.boardName = re.match(self._threadUrlRegex, threadUrl).group(1)
         self.threadNo = re.match(self._threadUrlRegex, threadUrl).group(2)
@@ -70,14 +72,13 @@ class ImageThreadFetcher (ThreadFetcher):
     def translateJsonStep (self, jsonDict):
         posts = jsonDict[self._keyRoot]
         
-        return (
-                (
-                    post[self._keyFilename] + post[self._keyExt],   # Filename + extension
-                    self._mediaUrlTpl % (self.boardName, (str(post[self._keySrc]) + post[self._keyExt]))    # URL to fetch
-                )
-                for post in posts
-                if self._keyFilename in post
-        )
+        for post in filter(lambda e: self._keyFilename in e, posts):
+            yield (
+                # Filename + extension
+                post[self._keyFilename] + post[self._keyExt],
+                # URL to fetch
+                self._mediaUrlTpl % (self.boardName, (str(post[self._keySrc]) + post[self._keyExt]))
+            )
 
 
 class ArchivedThreadFetcher (Fetcher):

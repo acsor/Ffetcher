@@ -15,10 +15,12 @@ class ImageThreadDownloader ():
 
         for filename, url in self.imageThreadFetcher:
             try:
-                # The tuple returned here is a couple of the filename in which the data is stored and the server response headers.
+                # The tuple returned here is a couple of the filename in which
+                # the data is stored and the server response headers.
                 yield opener.retrieve(url, self.dest_dir + filename)
             except IOError:
                 yield None
+
 
 def main ():
     import sys
@@ -33,7 +35,10 @@ def main ():
         dest_dir += "/"
 
     if not os.access(dest_dir, os.W_OK):
-        exit("\"%s\" does not have write permissions or does not exist." % dest_dir)
+        exit(
+            "\"%s\" does not have write permissions or does not exist."
+            % dest_dir
+        )
 
     for filename, response_headers in ImageThreadDownloader(url, dest_dir):
         print("Downloaded %s" % filename)
